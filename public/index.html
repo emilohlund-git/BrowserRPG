@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+</head>
+
+<body>
+    <div class="character-screen">
+        <div class="row">
+            <div class="col-12" id="notification-col">
+
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12 text-center image-col">
+                <p class="lead">Adamski, Warrior, Level <span id="current-level">1</span></p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <div class="hp-div">
+                    <p id="hp-text">100/100</p>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <div class="progress experience-bar border-top" id="experience-bar">
+                    <p id="experience-text">0/100</p>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <div class="form-group text-center">
+                    <p id="response" class="response-text"></p>
+                    <button class="btn btn-danger d-none" id="attackera-btn">Attack</button>
+                    <button class="btn btn-warning d-none" id="skydda-btn">Defend</button>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <div class="response-col">
+                    <button class="btn btn-danger slåss-button d-none" id="slåss">Fight</button>
+                    <button class="btn btn-warning slåss-button d-none" id="fly">Flee</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="update">
+            <p class="update"></p>
+        </div>
+
+        <div id="menu" class="menu">
+            <div class="form-group">
+                <button class="btn btn-info" id="save-button">Save Game</button>
+                <button class="btn btn-info" id="load-button">Load Game</button>
+            </div>
+        </div>
+
+        <div class="map" id="map">
+            <div class="row coordinates-row" id="coordinates">
+                <div class="col-6">
+                    <p class="lead" id="x">X</p>
+
+                </div>
+                <div class="col-6">
+                    <p class="lead" id="y">Y</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="enemy-div d-none" id="enemy-div">
+            <div class="row">
+                <div class="col-12 text-center image-col">
+                    <p class="lead" id="enemy-info"></p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <div class="hp-div">
+                        <p id="enemy-hp-text">100/100</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js" integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU=" crossorigin="anonymous"></script>
+    <script src="src/js/client.js "></script>
+    <script src="src/js/main.js "></script>
+</body>
+
+</html>

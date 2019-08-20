@@ -85,6 +85,13 @@ body {
     padding-top: 50px;
 }
 
+.slot {
+    width: 50px;
+    height: 50px;
+    background: rgb(128, 128, 128);
+    margin-bottom: 10px;
+}
+
 .progress {
     position: relative;
     margin: 0 auto;
@@ -96,7 +103,7 @@ body {
     padding-top: 20px;
     margin: 0 auto;
     width: 350px;
-    height: 40px;
+    height: 100%;
 }
 
 .form-group>button {
@@ -123,7 +130,7 @@ body {
 }
 
 .experience-bar {
-    background: #d1a4b9;
+    background: #e7aedb;
     height: 30px;
 }
 
@@ -139,7 +146,7 @@ body {
 
 .ui-widget-header {
     border: none;
-    background: rgb(167, 116, 158);
+    background: #c169cf;
     color: #333333;
     font-weight: bold;
     transition: all .5s ease-in-out;

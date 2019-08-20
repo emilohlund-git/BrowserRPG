@@ -7,7 +7,7 @@ let hpText = document.getElementById("hp-text");
 let isDead = false;
 var resTimer = 5;
 
-let lowLevelCap = 33;
+let lowLevelCap = 11;
 
 //DRAW THE MAP TILES
 const rows = 21;
@@ -75,23 +75,15 @@ for (let i = 0; i < inventorySlots; i++) {
 //Boolean to check if we're engaged with an enemy.
 let conflict = false;
 
-//The directions in which we can move using the command input.
-const directions = [
-    "North",
-    "Northwest",
-    "Northeast",
-    "South",
-    "Southwest",
-    "Southeast",
-    "West",
-    "East"
-];
-
 //The character
 const character = {
     attributes: {
-        name: "Adamski",
-        damage: 10
+        defense: random(2),
+        stamina: 11,
+        strength: 17,
+        agility: 10,
+        spirit: 8,
+        intelligence: 8
     },
     position: {
         row: random(rows - 2),
@@ -106,70 +98,102 @@ const character = {
         feet: "",
         weapon: ""
     },
-    currentHP: 100,
-    maxHP: 100,
-    maxExperience: 100,
+    name: "Adamski",
+    damage: 10,
+    currentHP: 0,
+    maxHP: 0,
+    maxExperience: 400,
     experience: 0,
-    currentLevel: 1
-}
+    currentLevel: 1,
+    backpack: {
+        food: [
 
-//Loot table for low level mobs (0-3)
-const lowLevelLootTable = {
-    sword: {
-        name: "Shortsword",
-        maxDamage: 5,
-        minDamage: 2
+        ],
+        armor: [
+
+        ]
     }
 }
 
-//Enemies
-let enemyHP = 5 * random(lowLevelCap);
-let enemyDamage = 5 * random(lowLevelCap);
+//Character formulas
+character.maxHP = Math.ceil((10 * character.attributes.stamina) + (character.maxHP * 1.5));
+character.currentHP = character.maxHP;
+document.getElementById("hp-text").innerHTML = character.currentHP + "/" + character.maxHP;
 
+//Enemies
 const wolf = {
     attributes: {
-        level: random(lowLevelCap),
-        name: "Wolf",
-        maxHP: enemyHP,
-        hp: enemyHP,
-        damage: enemyDamage
+        stamina: random(6),
+        strength: random(6),
+        agility: random(6),
+        intelligence: random(6),
+        spirit: random(6)
     },
     position: {
         row: random(rows - 2),
         column: random(columns - 2)
     },
-    experience: 10 * random(lowLevelCap),
+    level: random(lowLevelCap),
+    name: "Wolf",
+    maxHP: 0,
+    hp: 0,
+    damage: 0,
+    experience: (character.currentLevel * 5) + 45
 };
 
 const pig = {
     attributes: {
-        level: random(lowLevelCap),
-        name: "Pig",
-        maxHP: enemyHP,
-        hp: enemyHP,
-        damage: enemyDamage
+        stamina: random(6),
+        strength: random(6),
+        agility: random(6),
+        intelligence: random(6),
+        spirit: random(6)
     },
     position: {
         row: random(rows - 2),
         column: random(columns - 2)
     },
-    experience: 10 * random(lowLevelCap),
+    level: random(lowLevelCap),
+    name: "Pig",
+    maxHP: 0,
+    hp: 0,
+    damage: 0,
+    experience: (character.currentLevel * 5) + 45
 };
 
 const spider = {
     attributes: {
-        level: random(lowLevelCap),
-        name: "Spider",
-        maxHP: enemyHP,
-        hp: enemyHP,
-        damage: enemyDamage
+        stamina: random(6),
+        strength: random(6),
+        agility: random(6),
+        intelligence: random(6),
+        spirit: random(6)
     },
     position: {
         row: random(rows - 2),
         column: random(columns - 2)
     },
-    experience: 10 * random(lowLevelCap),
+    level: random(lowLevelCap),
+    name: "Spider",
+    maxHP: 0,
+    hp: 0,
+    damage: 0,
+    experience: (character.currentLevel * 5) + 45
 };
+
+//Enemies in an array
+let enemies = [
+    wolf,
+    pig,
+    spider
+];
+
+//Enemy formulas
+for (let i = 0; i < enemies.length; i++) {
+    enemies[i].damage = random(3) + (enemies[i].attributes.strength / 3.5) * 1.5;
+    enemies[i].maxHP = Math.ceil((10 * enemies[i].attributes.stamina) + (enemies[i].maxHP * 1.5));
+    enemies[i].hp = enemies[i].maxHP;
+}
 
 /*Dynamically change colors of the enemies on the minimap,
   based on the enemies level*/
@@ -203,13 +227,6 @@ function colors(enemy) {
 
     }
 }
-
-//Enemies in an array
-let enemies = [
-    wolf,
-    pig,
-    spider
-];
 
 //FIND PLAYER ON MAP
 var updateCharacterPosition = function() {
@@ -359,6 +376,18 @@ window.setInterval(function() {
 //Key movement
 //Hide character screen
 $(document).keydown(function(e) {
+    //Eat function
+    if (e.keyCode == 82) {
+        for (let i = 0; i < character.backpack.food.length; i++) {
+            if (character.backpack.food[i].saturation > 0) {
+                character.backpack.food[i].eat();
+            } else {
+                character.backpack.food.splice(i, 1);
+            }
+        }
+    }
+
+    //Game mechanics
     if (!conflict) {
         if (!isDead) {
             enemyNotifications();
@@ -374,6 +403,7 @@ $(document).keydown(function(e) {
                 $(".character-screen").addClass("d-none");
             }
         }
+        //Movement handler
         switch (e.keyCode) {
             //UP
             case 87:
@@ -439,9 +469,9 @@ function checkEnemyPositions() {
             document.getElementById("slåss").onclick = function() {
                 document.getElementById("enemy-div").classList.remove("d-none");
                 document.getElementById("map").classList.add("d-none");
-                document.getElementById("enemy-hp-text").innerHTML = enemies[i].attributes.hp + "/" + enemies[i].attributes.maxHP;
-                document.getElementById("enemy-info").innerHTML = enemies[i].attributes.name + ", Level " + enemies[i].attributes.level;
-                answer.innerHTML = "You've engaged in battle with " + enemies[i].attributes.name;
+                document.getElementById("enemy-hp-text").innerHTML = enemies[i].hp + "/" + enemies[i].maxHP;
+                document.getElementById("enemy-info").innerHTML = enemies[i].name + ", Level " + enemies[i].level;
+                answer.innerHTML = "You've engaged in battle with " + enemies[i].name;
                 document.getElementById("fly").classList.add("d-none");
                 document.getElementById("slåss").classList.add("d-none");
                 document.getElementById("attackera-btn").classList.remove("d-none");
@@ -452,7 +482,7 @@ function checkEnemyPositions() {
 
         function fight(enemy) {
             setInterval(function() {
-                if (enemy.attributes.hp < 1) {
+                if (enemy.hp < 1) {
                     winBattle(enemy);
 
                 }
@@ -461,10 +491,10 @@ function checkEnemyPositions() {
                 }
             }, 100);
             document.getElementById("attackera-btn").onclick = function() {
-                if (enemy.attributes.hp > 0) {
-                    enemy.attributes.hp -= random(character.attributes.damage);
-                    document.getElementById("enemy-hp-text").innerHTML = enemy.attributes.hp + "/" + enemy.attributes.maxHP;
-                    character.currentHP -= random(enemy.attributes.damage);
+                if (enemy.hp > 0) {
+                    enemy.hp -= random(character.damage);
+                    document.getElementById("enemy-hp-text").innerHTML = enemy.hp + "/" + enemy.maxHP;
+                    character.currentHP -= random(enemy.damage);
                     setCharacterHP(character.currentHP);
                 }
             }
@@ -474,15 +504,35 @@ function checkEnemyPositions() {
 }
 
 function winBattle(enemy) {
-    answer.innerHTML = "You've defeated " + enemy.attributes.name + " in battle.";
+    console.log(random(2));
+    if (random(2) == 1) {
+        var food = new foodItem({
+            saturation: 50
+        });
+        if (food.itemType == "food") {
+            character.backpack.food.push(food);
+        }
+        document.getElementById("response-loot").innerHTML = enemy.name + " dropped " + "[" + food.name + "]";
+    }
+
+    console.log(character.backpack);
+    answer.innerHTML = "You've defeated " + enemy.name + " in battle.";
+    document.getElementById("response-xp").innerHTML = "You gained " + enemy.experience + " experience.";
     conflict = false;
     increaseExperience(enemy.experience);
     document.getElementById("enemy-div").classList.add("d-none");
-    document.getElementById("map").classList.remove("d-none");
     document.getElementById("attackera-btn").classList.add("d-none");
     document.getElementById("skydda-btn").classList.add("d-none");
+    document.getElementById("continue-btn").classList.remove("d-none");
     //enemy.attributes.name + " dropped: " + getLoot(lowLevelLootTable);
     resetEnemy(enemy);
+    document.getElementById("continue-btn").addEventListener("click", function() {
+        answer.innerHTML = "";
+        document.getElementById("map").classList.remove("d-none");
+        document.getElementById("response-xp").classList.add("d-none");
+        document.getElementById("response-loot").classList.add("d-none");
+        document.getElementById("continue-btn").classList.add("d-none");
+    });
 }
 
 var resetEnemy = function(enemy) {
@@ -490,31 +540,9 @@ var resetEnemy = function(enemy) {
     enemyTile.innerHTML = "";
     enemy.position.row = random(10);
     enemy.position.column = random(10);
-    enemy.attributes.hp = enemy.attributes.maxHP;
+    enemy.hp = enemy.maxHP;
     updateEnemyPosition();
 }
-
-/*
-var getLoot = function(lootTable) {
-    var item;
-    Object.entries(lootTable).forEach(([key, val]) => {
-        item = val.name;
-        character.gear.weapon = val;
-    });
-
-    for (let i = 0; i < inventorySlots; i++) {
-        var slots = document.getElementById("slot-" + i);
-
-        if (slots.innerHTML == "") {
-            slots.style.background = "white";
-            slots.innerHTML = "Shortsword";
-            break;
-        }
-    }
-    checkSlots();
-    return item;
-}
-*/
 
 var healthColors = [
     //RED
@@ -607,14 +635,14 @@ function levelUp() {
     //Handle experience
     character.currentLevel++;
     levelText.innerHTML++;
-    character.maxExperience *= character.currentLevel
+    character.maxExperience = 40 * Math.pow(2, character.currentLevel) + 360 * character.currentLevel;
 
     $("#hp-text").css({
         color: healthColors[1]
     });
 
     //Handle attributes
-    character.maxHP *= character.currentLevel
+    character.maxHP *= Math.floor((character.currentLevel / 2));
     character.currentHP = character.maxHP;
     hpText.innerHTML = character.currentHP + "/" + character.maxHP;
     updateXpBar();
@@ -631,6 +659,39 @@ function checkSlots() {
     for (let i = 0; i < slots.length; i++) {
         if (slots[i].innerHTML != "") {
             console.log(slots[i].innerHTML);
+        }
+    }
+}
+
+//Loot handling
+/* Create random items function */
+let foodNames = [
+    "Apple",
+    "Banana",
+    "Bread",
+    "Meat",
+    "Cheese"
+];
+
+function foodItem(options) {
+    var options = options || {};
+    this.name = foodNames[random(foodNames.length)];
+    this.saturation = options.saturation || 50;
+    this.itemType = "food";
+    this.eat = function() {
+        if (character.currentHP < character.maxHP) {
+            if (this.saturation > 0) {
+                character.currentHP += this.saturation;
+                this.saturation = 0;
+                if (character.currentHP > character.maxHP) {
+                    character.currentHP = character.maxHP;
+                }
+                setCharacterHP(character.currentHP);
+            } else {
+                delete this;
+            }
+        } else {
+            document.getElementById("response").innerHTML = "You're already at full health.";
         }
     }
 }

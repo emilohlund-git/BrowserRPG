@@ -14,6 +14,7 @@ saveButton.addEventListener('click', function(e) {
     var maxExperience = character.maxExperience;
     var experience = character.experience;
     var currentLevel = character.currentLevel;
+    var items = character.backpack.weapon;
 
     $.post("http://localhost:8080/save", {
         "row": row,
@@ -23,7 +24,8 @@ saveButton.addEventListener('click', function(e) {
         "maxHP": maxHP,
         "maxExperience": maxExperience,
         "experience": experience,
-        "currentLevel": currentLevel
+        "currentLevel": currentLevel,
+        "items": items
     }, function(data) {
 
     });

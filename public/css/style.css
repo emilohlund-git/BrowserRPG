@@ -1,28 +1,43 @@
-@import url('https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Barlow+Condensed&display=swap');
 * {
     margin: 0;
     padding: 0;
-    font-family: "Open Sans Condensed", sans-serif;
+    font-family: "Barlow Condensed", sans-serif;
+}
+
+.grass-tile {
+    background: rgb(75, 160, 103);
+}
+
+html,
+body {
+    height: 100%;
+    background: #000;
 }
 
 .alert {
     transition: all .5s ease-in-out;
 }
 
+.player-container {
+    width: 100%;
+    position: absolute;
+    bottom: 150px;
+    color: #fff;
+}
+
 body {
     overflow: hidden;
 }
 
-.load-save-buttons {
-    width: 350px;
-}
-
 #save-button {
     float: left;
+    height: 75px;
 }
 
 #load-button {
     float: right;
+    height: 75px;
 }
 
 .update {
@@ -46,13 +61,12 @@ body {
 }
 
 .menu {
+    padding-top: 500px;
     width: 100%;
-    height: 25px;
-    position: absolute;
-    bottom: 0;
-    background: rgb(243, 243, 243);
-    border: 1px solid rgb(223, 223, 223);
-    transition: all .5s ease-in-out;
+    height: 100%;
+    background: rgb(116, 116, 116);
+    border: 1px solid rgba(223, 223, 223, 0.329);
+    z-index: 2200;
 }
 
 #x,
@@ -61,20 +75,46 @@ body {
     opacity: 0;
 }
 
-.menu:hover {
-    height: 110px;
+.inventory-row {
+    width: 290px;
 }
 
 .inventory-slot {
-    position: absolute;
-    background: rgb(255, 255, 255);
-    border: 1px solid rgb(223, 223, 223);
-    transition: all .2s ease-in-out;
+    height: 60px;
+    width: 60px;
+    background: rgb(37, 37, 37);
+    margin: 5px;
+    border: 1px solid rgb(114, 114, 114);
 }
 
 .inventory-slot:hover {
-    border: 2px solid rgb(216, 216, 216);
+    background: rgb(88, 88, 88);
 }
+
+.inventory-header {
+    padding: 7px 0 0 87px;
+    top: 0;
+    text-transform: uppercase;
+    position: absolute;
+    font-size: 24px;
+    color: rgb(196, 196, 196);
+}
+
+#tooltip {
+    padding: 20px 0 0 20px;
+}
+
+.tooltip-header {
+    font-size: 25px;
+    font-weight: 600;
+}
+
+.tooltip-rarity {
+    font-size: 15px;
+    font-weight: 600;
+}
+
+.tooltip-desc {}
 
 .heading {
     padding-top: 25px;
@@ -89,7 +129,7 @@ body {
     width: 50px;
     height: 50px;
     background: rgb(128, 128, 128);
-    margin-bottom: 10px;
+    margin-bottom: 5px;
 }
 
 .progress {
@@ -100,7 +140,7 @@ body {
 }
 
 .form-group {
-    padding-top: 20px;
+    z-index: -1;
     margin: 0 auto;
     width: 350px;
     height: 100%;
@@ -111,10 +151,28 @@ body {
     width: 350px;
 }
 
+.enemy-div {
+    color: #333;
+    font-size: 22px;
+    font-weight: 600;
+    position: absolute;
+    left: 50%;
+    margin-left: -175px;
+    top: 50%;
+    margin-top: 110px;
+    width: 350px;
+    height: 120px;
+}
+
 .response-col {
-    padding: 20px 20px 0 20px;
-    background: #fff;
-    margin: 0 auto;
+    color: #333;
+    font-size: 22px;
+    font-weight: 600;
+    position: absolute;
+    left: 50%;
+    margin-left: -175px;
+    top: 50%;
+    margin-top: -60px;
     width: 350px;
     height: 120px;
 }
@@ -130,7 +188,7 @@ body {
 }
 
 .experience-bar {
-    background: #e7aedb;
+    background: #a56597;
     height: 30px;
 }
 
@@ -146,7 +204,7 @@ body {
 
 .ui-widget-header {
     border: none;
-    background: #c169cf;
+    background: #774f7e;
     color: #333333;
     font-weight: bold;
     transition: all .5s ease-in-out;
@@ -163,9 +221,9 @@ body {
 }
 
 .map {
-    margin: 0 auto;
-    transition: all .5s ease-in-out;
-    bottom: 0;
+    width: 150px;
+    margin: 20px auto 20px 20px;
+    height: 12px;
 }
 
 .map-row {
@@ -178,11 +236,10 @@ body {
 .map-tile {
     margin: 0;
     padding: 0;
-    border: 1px solid rgb(255, 255, 255);
     height: 100%;
+    border: 1px solid rgb(0, 0, 0);
     width: 100%;
     background: #eee;
-    transition: all .1s ease-in-out;
 }
 
 .fiende {
@@ -209,4 +266,12 @@ textarea:disabled {
 .map-tile {
     color: #fff;
     text-align: center;
+}
+
+
+/* Inventory */
+
+#equipped {
+    position: absolute;
+    left: 5px;
 }

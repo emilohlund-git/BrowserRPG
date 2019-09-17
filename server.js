@@ -30,7 +30,7 @@ app.get('/', (req, res) => {
     res.sendFile(__dirname + '/index.html');
 });
 
-// add a document to the DB collection recording the click event
+// add a document to the DB collection recording the character data
 app.post('/save', (req, res) => {
     var row = req.body.row;
     var column = req.body.column;
@@ -40,6 +40,7 @@ app.post('/save', (req, res) => {
     var maxExperience = req.body.maxExperience;
     var experience = req.body.experience;
     var currentLevel = req.body.currentLevel;
+    var items = JSON.stringify(req.body.items);
 
     db.listCollections().toArray(function(err, items) {
         if (err) throw err;
@@ -57,7 +58,8 @@ app.post('/save', (req, res) => {
                 maxHP: maxHP,
                 maxExperience: maxExperience,
                 experience: experience,
-                currentLevel: currentLevel
+                currentLevel: currentLevel,
+                items: items
             });
         } else {
             db.collection("Character").insertOne({
@@ -69,14 +71,14 @@ app.post('/save', (req, res) => {
                 maxHP: maxHP,
                 maxExperience: maxExperience,
                 experience: experience,
-                currentLevel: currentLevel
+                currentLevel: currentLevel,
+                items: items
             });
         }
     });
-
 });
 
-// get the click data from the database
+// get the character data from the database
 app.get('/save', (req, res) => {
     db.collection('Character').find().toArray((err, result) => {
         res.send(result);

@@ -11,77 +11,20 @@
     <link rel="stylesheet" href="css/bootstrap.min.css">
     <link rel="stylesheet" href="css/style.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-
+    <script src="https://cdn.jsdelivr.net/npm/@shopify/draggable@1.0.0-beta.8/lib/draggable.bundle.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@shopify/draggable@1.0.0-beta.8/lib/droppable.js"></script>
 </head>
 
-<body>
+<body class="body">
     <div class="character-screen">
         <div class="row">
             <div class="col-12" id="notification-col">
 
             </div>
         </div>
-        <div class="row">
-            <div class="col-12 text-center image-col">
-                <p class="lead">Adamski, Warrior, Level <span id="current-level">1</span></p>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-12">
-                <div class="hp-div">
-                    <p id="hp-text">100/100</p>
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-12">
-                <div class="progress experience-bar border-top" id="experience-bar">
-                    <p id="experience-text">0/400</p>
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-12">
-                <div class="form-group text-center">
-                    <p id="response" class="response-text"></p>
-                    <p id="response-xp" class="response-text"></p>
-                    <p id="response-loot" class="response-text"></p>
-                    <button class="btn btn-danger d-none" id="attackera-btn">Attack</button>
-                    <button class="btn btn-warning d-none" id="skydda-btn">Defend</button>
-                    <button class="btn btn-info d-none" id="continue-btn">Continue</button>
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-12">
-                <div class="response-col">
-                    <button class="btn btn-danger slåss-button d-none" id="slåss">Fight</button>
-                    <button class="btn btn-warning slåss-button d-none" id="fly">Flee</button>
-                </div>
-            </div>
-        </div>
 
         <div id="update">
             <p class="update"></p>
-        </div>
-
-        <div id="menu" class="menu">
-            <div class="form-group">
-                <button class="btn btn-info" id="save-button">Save Game</button>
-                <button class="btn btn-info" id="load-button">Load Game</button>
-            </div>
-        </div>
-
-        <div class="map" id="map">
-            <div class="row coordinates-row" id="coordinates">
-                <div class="col-6">
-                    <p class="lead" id="x">X</p>
-
-                </div>
-                <div class="col-6">
-                    <p class="lead" id="y">Y</p>
-                </div>
-            </div>
         </div>
 
         <div class="enemy-div d-none" id="enemy-div">
@@ -98,23 +41,60 @@
                 </div>
             </div>
         </div>
-        <div class="row">
-            <div class="col-12">
-                <div class="inventory">
-                    <div class="slot" id="slot-1">
 
-                    </div>
-                    <div class="slot" id="slot-2">
+        <div class="map" id="map">
+            <div class="row coordinates-row" id="coordinates">
+                <div class="col-6">
+                    <p class="lead" id="x">X</p>
 
-                    </div>
+                </div>
+                <div class="col-6">
+                    <p class="lead" id="y">Y</p>
                 </div>
             </div>
         </div>
 
+        <div class="row">
+            <div class="col-12">
+
+            </div>
+        </div>
+
+        <div class="response-col text-center">
+            <p id="response" class="response-text"></p>
+            <button class="btn btn-danger slåss-button d-none" id="slåss">Fight</button>
+            <button class="btn btn-warning slåss-button d-none" id="fly">Flee</button>
+            <div class="form-group text-center">
+
+                <p id="response-xp" class="response-text"></p>
+                <p id="response-loot" class="response-text"></p>
+                <button class="btn btn-danger d-none" id="attackera-btn">Attack</button>
+                <button class="btn btn-warning d-none" id="skydda-btn">Defend</button>
+                <button class="btn btn-info d-none" id="continue-btn">Continue</button>
+            </div>
+        </div>
+
+        <footer class="player-container">
+            <div class="col-12 text-center">
+                <p class="lead">Adamski, Warrior, Level <span id="current-level">1</span></p>
+            </div>
+            <div class="hp-div">
+                <p id="hp-text">100/100</p>
+            </div>
+            <div class="progress experience-bar border-top" id="experience-bar">
+                <p id="experience-text">0/400</p>
+            </div>
+        </footer>
+    </div>
+    <div id="menu" class="menu d-none">
+        <div class="form-group">
+            <button class="btn btn-info" id="save-button">Save Game</button>
+            <button class="btn btn-info" id="load-button">Load Game</button>
+        </div>
     </div>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js" integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU=" crossorigin="anonymous"></script>
-    <script src="src/js/client.js "></script>
-    <script src="src/js/main.js "></script>
+    <script src="src/js/client.js"></script>
+    <script src="src/js/main.js"></script>
 </body>
 
 </html>
